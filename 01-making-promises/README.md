@@ -35,3 +35,5 @@ Use the [Promise constructor](https://developer.mozilla.org/en-US/docs/Web/JavaS
 ## Exercise 4
 
 This is a common use of the Promise constructor. If you want to simulate waiting for a value, a common technique is to create a function like the following.  It simply accepts a value, and a delayInMs, then returns a promise that will resolve with that value after that delay.
+
+Hint: the function you should use to delay code execution for a number of milliseconds is called [setTimeout](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#description).

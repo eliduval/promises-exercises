@@ -53,6 +53,12 @@ In this exercise, we'll be passing a promise that resolves with a number or a st
 * If the input promise resolves with a string that we cannot turn into a number (like "asdf"), then we reject with a message like "Cannot convert 'asdf' to a number!"
 * If the input promise rejects with an error, the output promise rejects with the same error
 
+**Hint 1**: to test if a value is a number, you can use `typeof value === 'number'`.
+
+**Hint 2**: to convert a string value to a number, you can use `Number(value)`. If the string cannot be converted to a number, you get `NaN`, which you can test for by doing `Number.isNaN(value)`.
+
+**Hint 3**: in JavaScript you can use any value as an exception or error value. In this code, you don't need to construct an explicit `Error` object, but you can use the string "Cannot convert 'asdf' to a number!" as the error value directly. Have a look at [template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) to learn how to construct a string that contains runtime values.
+
 ## Exercise 3
 
 In the same way that we can use `.then(cb)` to transform a promise when it resolves, we can also use `.catch(cb)` to transform a promise when it rejects.  If we return a value from a `.catch(cb)`, we create a new promise that will resolve.  Likewise, if we throw an error in a `.catch`, the new promise will reject with that new error.

@@ -89,7 +89,7 @@ describe('Transforming Promises with .then(cb) and .catch(cb)', () => {
         });
     });
 
-    it('rejects if the input promise rejects.', () => {
+    it('resolves with 0 if the input promise rejects.', () => {
       return squarePromiseOrZero(Promise.reject(9))
         .then((val) => {
           assert.equal(val, 0);

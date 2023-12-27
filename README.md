@@ -4,8 +4,6 @@ A set of exercises to learn about asynchronous programming using Promises in Jav
 
 Fill in the blanks to make all the tests green.
 
-Adapted from [this repository](https://github.com/lighthouse-labs/promises-exercises) by Lighthouse Labs.
-
 ## Setup
 
 0. Verify that `node --version` returns at least `v19.0.0` or later. If not, install a recent version of node.js per the standard [installation instructions](https://nodejs.org/en/download/package-manager).
@@ -22,6 +20,8 @@ You are free to look at any of the tests for guidance, but don't change them.
 
 > To run the tests of the exercises in a directory like `01-making-promises`, execute `npm run 01-making-promises` from the top-level project directory.
 
+> **Windows users:** if running `npm run 01-making-promises` fails with an error stating that '.' is not executable, open `package.json` and in the `"scripts"` section replace all `/` by `\\` like so: `"01-making-promises": ".\\node_modules\\.bin\\mocha -- .\\01-making-promises\\test.js"`. Alternatively, use [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) and Bash to run the command.
+
 ## Outline
 
 * `npm run 01-making-promises` - Create promises with Promise.resolve, Promise.reject, and the Promise constructor.
@@ -32,3 +32,7 @@ You are free to look at any of the tests for guidance, but don't change them.
 * `npm run 06-async-functions` - Turn promise-centric functions into `async` functions. Refactor code that uses `.then(cb)` to use sequential control flow instead.
 
 > Tip:  To run any of the exercises above in watch mode, add `-- --watch`, (e.g. `npm run 01-making-promises -- --watch`)
+
+## Acknowledgements
+
+This exercise suite was adapted from [this repository](https://github.com/lighthouse-labs/promises-exercises) by Lighthouse Labs.

@@ -57,13 +57,17 @@ We want to make a function that combines these two calls into one, making an obj
 
 We can't get the organization object until we have the user object and the organization id.  That means that we have to request the user, wait until we have it, then request the organization, wait for it to return, and return a combined object.
 
-It's also worth noting that the getUserById function will resolve with undefined if no user is found with that id.  Then we don't have to request the organization at all!
+It's also worth noting that the `getUserById` function will resolve with `undefined` if no user is found with that id.  Then we don't have to request the organization at all! Similarly, if the organization does not exist, you code can return `undefined`.
 
-For this example, the test creates the getUserById and getOrganizationById functions, then passes them to a function that itself returns the function we want to build: one which takes in a userId and returns a combined object.
+For this example, the test creates the `getUserById` and `getOrganizationById` functions, then passes them to a function that itself returns the function we want to build: one which takes in a `userId` and returns a combined object.
+
+Note that **both** `getUserById` and `getOrganizationById` function execute asynchronously and return a *Promise* object.
+
+**Hint:** To construct a "combined" object from `user` and `org`, you can use the expression `{...user, organization: org}`. This will construct a new JavaScript object containing all the properties of the `user` object, but with an extra `organization` property.
 
 ## Exercise 4
 
-Building on the scenario from Exercise 3, let's assume that we are now given both the user's userId and organizationId. This means we can now fetch the user and organization objects from their respective databases simultaneously. Doing both calls "in parallel" reduces network latency, making our app more responsive.
+Building on the scenario from Exercise 3, let's assume that we are now given both the user's `userId` and `organizationId`. This means we can now fetch the user and organization objects from their respective databases simultaneously. Doing both calls "in parallel" reduces network latency, making our app more responsive.
 
 Refactor your code from exercise 3 so that the objects are fetched simultaneously before merging them. If either user or organization id is not found, then the result should still be `undefined`.
 
