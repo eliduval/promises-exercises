@@ -6,7 +6,7 @@
  * @returns {Promise<3>}
  */
 async function makePromiseResolveWith3(){
-  /* IMPLEMENT ME! */
+  return new Promise((resolve)=>resolve(3))
 }
 
 /**
@@ -16,7 +16,7 @@ async function makePromiseResolveWith3(){
  * @returns {Promise<,"Boo!">}
  */
 async function makePromiseRejectWithBoo(){
-  /* IMPLEMENT ME! */
+  return new Promise((resolve,reject)=>reject('Boo!'))
 }
 
 /**
@@ -27,7 +27,8 @@ async function makePromiseRejectWithBoo(){
  * @param {function} slowAsyncProcess 
  */
 async function chainTwoAsyncProcesses(firstPromise, slowAsyncProcess){
-  /* IMPLEMENT ME! */
+  r1 = await firstPromise;
+  return await slowAsyncProcess(r1)
 }
 
 /**
@@ -42,7 +43,12 @@ function makeAsyncGetUserByIdWithOrganization(getUserById, getOrganizationById){
    * @param {string} userId 
    */
   return async function getUserByIdWithOrganization(userId){
-    /* IMPLEMENT ME! */
+    user = await getUserById(userId);
+    if (user===undefined){return undefined}
+    org = await getOrganizationById(user.organizationId)
+    if (org===undefined){return undefined}
+    user.organization = org;
+    return user
   };
 }
   
@@ -59,7 +65,10 @@ function makeAsyncGetUserAndOrganizationById(getUserById, getOrganizationById){
    * @param {string} organizationId
   */
   return async function getUserByIdWithOrganization(userId, organizationId){
-    /* IMPLEMENT ME! */
+    [user, org] = await Promise.all([getUserById(userId),getOrganizationById(organizationId)])
+    if (user===undefined || org===undefined){return undefined}
+    user.organization = org;
+    return user
   };
 }
 
@@ -76,6 +85,26 @@ function makeAsyncGetUsersByIdWithOrganizations(getUserById, getOrganizationById
    */
   return async function getUserByIdWithOrganization(userIds){
     /* IMPLEMENT ME! */
+    promises_u =  userIds.map(i=>getUserById(i));
+    const users = await Promise.all(promises_u)
+    real_users = users.filter(u=>!(u===undefined))
+    promises_o = real_users.map(u=> getOrganizationById(u.organizationId))
+    const orgs = await Promise.all(promises_o)
+    res =[]
+    let nb_undef = 0
+    for (let u = 0; u < users.length; u++){
+        let user = users[u]
+        if (user ===undefined){
+          res.push(undefined)
+          nb_undef=nb_undef+1}
+        else{
+          const org = orgs[u-nb_undef]
+          if (org ===undefined){res.push(undefined)}
+          else{user.organization=org
+          res.push(user)}}
+    }
+    return res
+
   };
 }
 

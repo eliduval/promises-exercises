@@ -8,7 +8,8 @@
 function flatMapPromise(promise, asyncTransformer){
   return new Promise((resolve, reject) => {
     promise
-      .then(/* IMPLEMENT ME! */);
+      .then((v)=> resolve(asyncTransformer(v)))
+      .catch((e)=> reject(e))
   });
 }
 
@@ -20,7 +21,7 @@ function flatMapPromise(promise, asyncTransformer){
  * @param {function} slowAsyncProcess 
  */
 function chainTwoAsyncProcesses(firstPromise, slowAsyncProcess){
-  return firstPromise.then(/* IMPLEMENT ME! */);
+  return firstPromise.then((v)=>{return slowAsyncProcess(v)});
 }
 
 /**
@@ -32,7 +33,10 @@ function chainTwoAsyncProcesses(firstPromise, slowAsyncProcess){
  */
 function makeGetUserByIdWithOrganization(getUserById, getOrganizationById){
   return function getUserByIdWithOrganization(userId){
-    /* IMPLEMENT ME! */
+    return getUserById(userId).then((us)=>
+    {if (us===undefined){return undefined}
+    return getOrganizationById(us.organizationId).then(org=>{us.organization=org; return us})})
+
   };
 }
 
@@ -49,7 +53,12 @@ function makeGetUserAndOrganizationById(getUserById, getOrganizationById){
    * @param {string} organizationId
    */
   return function getUserByIdWithOrganization(userId, organizationId){
-    /* IMPLEMENT ME! */
+   return Promise.all([getUserById(userId),getOrganizationById(organizationId)])
+              .then(([res1,res2])=>{
+                if((res1===undefined) || (res2===undefined)){return undefined}
+                res1.organization=res2
+                return res1
+              })
   };
 }
 
@@ -65,7 +74,14 @@ function makeGetUsersByIdWithOrganizations(getUserById, getOrganizationById){
    * @param {Array<string>} userIds
    */
   return function getUserByIdWithOrganization(userIds){
-    /* IMPLEMENT ME! */
+    promises = userIds.map(i=>getUserById(i));
+   return Promise.all(promises).then(users=>{
+    res = [];
+    for (const u of users){
+      if (u===undefined){res.push(undefined)}
+      getOrganizationById(u.organizationId).then(o=>{u.organization=o; res.push(u)});
+
+    }return res})
   };
 }
 
